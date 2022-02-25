@@ -1,0 +1,117 @@
+<div class="content">
+  <form [formGroup]="form">
+    <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your name</mat-label>
+        <input
+          matInput
+          placeholder="John Doe"
+          formControlName="name"
+          required
+        />
+        <mat-error *ngIf="form.get('name')?.hasError('required')"
+          >Name is required</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          formControlName="email"
+          required
+        />
+        <mat-error *ngIf="form.get('email')?.hasError('required')"
+          >Email is required</mat-error
+        >
+        <mat-error *ngIf="form.get('email')?.hasError('email')"
+          >Please enter a valid email</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <div formArrayName="lineItems">
+      <div fxLayout="row" fxLayoutAlign="start centre" fxLayoutGap="10px">
+        <h2>Items</h2>
+        <button mat-button color="primary" type="button" (click)="addItem()">
+          + Add another item
+        </button>
+      </div>
+
+      <div *ngFor="let item of lineItems.controls; let i = index">
+        <!-- The repeated item template -->
+
+        <div
+          [formGroupName]="i"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="20px"
+        >
+          <div>{{ i + 1 }}</div>
+          <div class="example-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Enter product name</mat-label>
+              <input
+                matInput
+                placeholder="Light bulb"
+                formControlName="productName"
+                required
+              />
+              <mat-error *ngIf="item.get('productName')?.hasError('required')"
+                >Product name is required</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="example-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Enter quantity</mat-label>
+              <input
+                matInput
+                placeholder="1"
+                min="1"
+                formControlName="quantity"
+                type="number"
+                required
+              />
+              <mat-error *ngIf="item.get('quantity')?.hasError('required')"
+                >Quantity is required</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="example-container">
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Enter unit price</mat-label>
+              <input
+                matInput
+                placeholder="1.00"
+                min="0"
+                step="0.01"
+                formControlName="unitPrice"
+                type="number"
+                required
+              />
+              <span matPrefix>$&nbsp;</span>
+              <mat-error *ngIf="item.get('unitPrice')?.hasError('required')"
+                >Unit price is required</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <button mat-icon-button color="warn" type="button" (click)="removeItem(i)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="submitOrder()"
+    >
+      Submit Order
+    </button>
+  </form>
+</div>
